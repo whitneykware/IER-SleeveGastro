@@ -13,16 +13,15 @@ plot_richness(ps, x="Time.point..weeks.", measures=c("Shannon", "Simpson"), colo
 
 ps.prop <- transform_sample_counts(ps, function(otu) otu/sum(otu))
 ord.nmds.bray <- ordinate(ps.prop, method="NMDS", distance="bray")
-
 plot_ordination(ps.prop, ord.nmds.bray, color="Treatment.Group", title="Bray NMDS")
-
 
 top20 <- names(sort(taxa_sums(ps), decreasing=TRUE))[1:20]
 ps.top20 <- transform_sample_counts(ps, function(OTU) OTU/sum(OTU))
 ps.top20 <- prune_taxa(top20, ps.top20)
 
-
 plot_bar(ps, x="Treatment.Group", fill="Family") + facet_wrap(~Time.point..weeks., scales="free_x")
 plot_bar(ps.top20, x="Treatment.Group", fill="Family") + facet_wrap(~Time.point..weeks., scales="free_x")
 plot_bar(ps, x="Treatment.Group", fill="Genus") + facet_wrap(~Time.point..weeks., scales="free_x")
 plot_bar(ps.top20, x="Treatment.Group", fill="Genus") + facet_wrap(~Time.point..weeks., scales="free_x")
+
+
