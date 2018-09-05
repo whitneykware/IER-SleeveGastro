@@ -2,8 +2,8 @@ library(dada2); packageVersion("dada2")
 
 
 # File parsing
-pathF <- "/Users/whitneyware/IER_Sleeve/IER_Run_1_seqs/fwd"
-pathR <- "/Users/whitneyware/IER_Sleeve/IER_Run_1_seqs/rev"
+pathF <- "/Users/whitneyware/IER_Sleeve/IER_Run_2_seqs/fwd"
+pathR <- "/Users/whitneyware/IER_Sleeve/IER_Run_2_seqs/rev"
 filtpathF <- file.path(pathF, "filtered") 
 filtpathR <- file.path(pathR, "filtered") 
 fastqFs <- sort(list.files(pathF, pattern="fastq.gz"))
@@ -17,8 +17,8 @@ filterAndTrim(fwd=file.path(pathF, fastqFs), filt=file.path(filtpathF, fastqFs),
               compress=TRUE, verbose=TRUE, trimLeft = c(20, 18))
 
 # File parsing
-filtpathF <- "/Users/whitneyware/IER_Sleeve/IER_Run_1_seqs/fwd/filtered" 
-filtpathR <- "/Users/whitneyware/IER_Sleeve/IER_Run_1_seqs/rev/filtered"
+filtpathF <- "/Users/whitneyware/IER_Sleeve/IER_Run_2_seqs/fwd/filtered" 
+filtpathR <- "/Users/whitneyware/IER_Sleeve/IER_Run_2_seqs/rev/filtered"
 filtFs <- list.files(filtpathF, pattern="fastq.gz", full.names = TRUE)
 filtRs <- list.files(filtpathR, pattern="fastq.gz", full.names = TRUE)
 sample.names <- sapply(strsplit(basename(filtFs), "-"), `[`, 1) 
@@ -49,29 +49,27 @@ rm(derepF); rm(derepR)
 
 # Construct sequence table and remove chimeras
 seqtab <- makeSequenceTable(mergers)
-seqtab <- removeBimeraDenovo(seqtab, method="consensus")
+saveRDS(seqtab, "/Users/whitneyware/IER_Sleeve/IER_Run_2_seqs/IER_run_2_seqtab.rds") # CHANGE ME to where you want sequence table saved
 
-# Assign taxonomy and species
-tax <- assignTaxonomy(seqtab, "/Users/whitneyware/IER_Sleeve/silva_nr_v132_train_set.fa.gz")
+# Merge multiple runs (if necessary)
+st1 <- readRDS("/Users/whitneyware/IER_Sleeve/IER_Run_1_seqs/IER_run_1_seqtab.rds")
+st2 <- readRDS("/Users/whitneyware/IER_Sleeve/IER_Run_2_seqs/IER_run_2_seqtab.rds")
+st.all <- mergeSequenceTables(st1, st2)
+
+# Remove chimeras
+seqtab <- removeBimeraDenovo(st.all, method="consensus", multithread=TRUE)
+
+# Assign taxonomy
+tax <- assignTaxonomy(seqtab, "/Users/whitneyware/IER_Sleeve/silva_nr_v132_train_set.fa.gz", multithread=TRUE)
 species <- addSpecies(tax, "/Users/whitneyware/IER_Sleeve/silva_species_assignment_v132.fa.gz")
 
 # Write to disk
-saveRDS(seqtab, "/Users/whitneyware/IER_Sleeve/IER_Run_1_seqs/IER_run_1_seqtab_final.rds")
-saveRDS(tax, "/Users/whitneyware/IER_Sleeve/IER_Run_1_seqs/IER_run_1_tax_final.rds") 
-saveRDS(species, "/Users/whitneyware/IER_Sleeve/IER_Run_1_seqs/IER_run_1_species_final.rds") 
-
-# Read in RDS if needed
-seqtab <- readRDS("/Users/whitneyware/IER_Sleeve/IER_Run_1_seqs/IER_run_1_seqtab.rds")
-tax <- readRDS("/Users/whitneyware/IER_Sleeve/IER_Run_1_seqs/IER_run_1_tax_final.rds")
-species <- readRDS("/Users/whitneyware/IER_Sleeve/IER_Run_1_seqs/IER_run_1_species_final.rds")
-
-# Save to table
-setwd('/Users/whitneyware/IER_Sleeve/IER_Run_1_seqs')
-write.table(seqtab, file="IER_run_1_septab.txt")
-write.table(tax, file="IER_run_1_tax.txt")
-write.table(species, file="IER_run_1_species.txt")
+saveRDS(seqtab, "/Users/whitneyware/IER_Sleeve/IER_combined_seqtab_final.rds") 
+saveRDS(tax, "/Users/whitneyware/IER_Sleeve/IER_combined_tax_final.rds") 
+saveRDS(species, "/Users/whitneyware/IER_Sleeve/IER_combined_species_final.rds")
 
 # Check species
 species.print <- species # Removing sequence rownames for display only
 rownames(species.print) <- NULL
 head(species.print)
+
