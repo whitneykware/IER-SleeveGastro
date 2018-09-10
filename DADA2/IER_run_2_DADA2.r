@@ -13,7 +13,7 @@ if(length(fastqFs) != length(fastqRs)) stop("Forward and reverse files do not ma
 # Filtering: THESE PARAMETERS ARENT OPTIMAL FOR ALL DATASETS
 filterAndTrim(fwd=file.path(pathF, fastqFs), filt=file.path(filtpathF, fastqFs),
               rev=file.path(pathR, fastqRs), filt.rev=file.path(filtpathR, fastqRs),
-              truncLen=c(120,140), maxEE=2, truncQ=2, maxN=0, rm.phix=TRUE,
+              truncLen=c(100,130), maxEE=2, truncQ=2, maxN=0, rm.phix=TRUE,
               compress=TRUE, verbose=TRUE, trimLeft = c(20, 18))
 
 # File parsing
@@ -52,21 +52,26 @@ seqtab <- makeSequenceTable(mergers)
 saveRDS(seqtab, "/Users/whitneyware/IER_Sleeve/IER_Run_2_seqs/IER_run_2_seqtab.rds") # CHANGE ME to where you want sequence table saved
 
 # Merge multiple runs (if necessary)
-st1 <- readRDS("/Users/whitneyware/IER_Sleeve/IER_Run_1_seqs/IER_run_1_seqtab.rds")
+st1 <- readRDS("/Users/whitneyware/IER_Sleeve/IER_Run_1_seqs/IER_run_1_seqtab_final.rds")
 st2 <- readRDS("/Users/whitneyware/IER_Sleeve/IER_Run_2_seqs/IER_run_2_seqtab.rds")
 st.all <- mergeSequenceTables(st1, st2)
 
 # Remove chimeras
-seqtab <- removeBimeraDenovo(st.all, method="consensus", multithread=TRUE)
+seqtab_combined <- removeBimeraDenovo(st.all, method="consensus", multithread=TRUE)
 
 # Assign taxonomy
-tax <- assignTaxonomy(seqtab, "/Users/whitneyware/IER_Sleeve/silva_nr_v132_train_set.fa.gz", multithread=TRUE)
-species <- addSpecies(tax, "/Users/whitneyware/IER_Sleeve/silva_species_assignment_v132.fa.gz")
+tax_combined <- assignTaxonomy(seqtab_combined, "/Users/whitneyware/IER_Sleeve/silva_nr_v132_train_set.fa.gz", multithread=TRUE)
+species_combined <- addSpecies(tax_combined, "/Users/whitneyware/IER_Sleeve/silva_species_assignment_v132.fa.gz")
 
 # Write to disk
-saveRDS(seqtab, "/Users/whitneyware/IER_Sleeve/IER_combined_seqtab_final.rds") 
-saveRDS(tax, "/Users/whitneyware/IER_Sleeve/IER_combined_tax_final.rds") 
-saveRDS(species, "/Users/whitneyware/IER_Sleeve/IER_combined_species_final.rds")
+saveRDS(seqtab_combined, "/Users/whitneyware/IER_Sleeve/IER_combined/IER_combined_seqtab_final.rds") 
+saveRDS(tax_combined, "/Users/whitneyware/IER_Sleeve/IER_combined/IER_combined_tax_final.rds") 
+saveRDS(species_combined, "/Users/whitneyware/IER_Sleeve/IER_combined/IER_combined_species_final.rds")
+
+setwd('/Users/whitneyware/IER_Sleeve/IER_combined')
+write.table(seqtab_combined, file="IER_combined_seqtab_final.txt")
+write.table(tax_combined, file="IER_combined_tax_final.txt")
+write.table(species_combined, file="IER_combined_species_final.txt")
 
 # Check species
 species.print <- species # Removing sequence rownames for display only
