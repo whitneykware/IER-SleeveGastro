@@ -62,19 +62,13 @@ saveRDS(tax, "/Users/whitneyware/IER_Sleeve/sleeve_seqs/sleeve_tax_final.rds")
 saveRDS(species, "/Users/whitneyware/IER_Sleeve/sleeve_seqs/sleeve_species_final.rds") 
 
 # Read in RDS if needed
-seqtab <- readRDS("/Users/whitneyware/IER_Sleeve/sleeve_seqs/sleeve_seqtab_final.rds")
-tax <- readRDS("/Users/whitneyware/IER_Sleeve/sleeve_seqs/sleeve_tax_final.rds")
+sleeve_seqtab <- readRDS("/Users/whitneyware/IER_Sleeve/sleeve_seqs/sleeve_seqtab_final.rds")
+sleeve_tax <- readRDS("/Users/whitneyware/IER_Sleeve/sleeve_seqs/sleeve_tax_final.rds")
 species <- readRDS("/Users/whitneyware/IER_Sleeve/sleeve_seqs/sleeve_species_final.rds")
 
 # Save to table
 setwd('/Users/whitneyware/IER_Sleeve/sleeve_seqs')
-write.table(seqtab, file="sleeve_septab.txt")
+write.table(seqtab, file="sleeve_septab.txt", sep = "\t")
 write.table(tax, file="sleeve_tax_tab.txt", sep = '\t')
 write.table(species, file="sleeve_species_tab.txt", sep = '\t')
-
-# Check species
-species.print <- species # Removing sequence rownames for display only
-rownames(species.print) <- NULL
-head(species.print)
-
 

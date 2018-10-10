@@ -13,8 +13,8 @@ if(length(fastqFs) != length(fastqRs)) stop("Forward and reverse files do not ma
 # Filtering: THESE PARAMETERS ARENT OPTIMAL FOR ALL DATASETS
 filterAndTrim(fwd=file.path(pathF, fastqFs), filt=file.path(filtpathF, fastqFs),
               rev=file.path(pathR, fastqRs), filt.rev=file.path(filtpathR, fastqRs),
-              truncLen=c(120,140), maxEE=2, truncQ=2, maxN=0, rm.phix=TRUE,
-              compress=TRUE, verbose=TRUE, trimLeft = c(20, 18))
+              truncLen=c(120,140), maxEE=2, truncQ=11, maxN=0, rm.phix=TRUE,
+              compress=TRUE, verbose=TRUE, trimLeft = c(20,18))
 
 # File parsing
 filtpathF <- "/Users/whitneyware/IER_Sleeve/IER_Run_1_seqs/fwd/filtered" 
@@ -48,30 +48,6 @@ for(sam in sample.names) {
 rm(derepF); rm(derepR)
 
 # Construct sequence table and remove chimeras
-seqtab <- makeSequenceTable(mergers)
-seqtab <- removeBimeraDenovo(seqtab, method="consensus")
+seqtab_run1 <- makeSequenceTable(mergers)
+saveRDS(seqtab, "/Users/whitneyware/IER_Sleeve/IER_combined/mergedFwdRev/IER_run_1_seqtab.rds")
 
-# Assign taxonomy and species
-tax <- assignTaxonomy(seqtab, "/Users/whitneyware/IER_Sleeve/silva_nr_v132_train_set.fa.gz")
-species <- addSpecies(tax, "/Users/whitneyware/IER_Sleeve/silva_species_assignment_v132.fa.gz")
-
-# Write to disk
-saveRDS(seqtab, "/Users/whitneyware/IER_Sleeve/IER_Run_1_seqs/IER_run_1_seqtab_final.rds")
-saveRDS(tax, "/Users/whitneyware/IER_Sleeve/IER_Run_1_seqs/IER_run_1_tax_final.rds") 
-saveRDS(species, "/Users/whitneyware/IER_Sleeve/IER_Run_1_seqs/IER_run_1_species_final.rds") 
-
-# Read in RDS if needed
-seqtab <- readRDS("/Users/whitneyware/IER_Sleeve/IER_Run_1_seqs/IER_run_1_seqtab.rds")
-tax <- readRDS("/Users/whitneyware/IER_Sleeve/IER_Run_1_seqs/IER_run_1_tax_final.rds")
-species <- readRDS("/Users/whitneyware/IER_Sleeve/IER_Run_1_seqs/IER_run_1_species_final.rds")
-
-# Save to table
-setwd('/Users/whitneyware/IER_Sleeve/IER_Run_1_seqs')
-write.table(seqtab, file="IER_run_1_septab.txt")
-write.table(tax, file="IER_run_1_tax.txt")
-write.table(species, file="IER_run_1_species.txt")
-
-# Check species
-species.print <- species # Removing sequence rownames for display only
-rownames(species.print) <- NULL
-head(species.print)

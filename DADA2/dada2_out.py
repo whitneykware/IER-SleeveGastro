@@ -1,10 +1,10 @@
 import os
 
-os.chdir("/Users/whitneyware/IER_Sleeve/sleeve_seqs")
+os.chdir("/Users/whitneyware/IER_Sleeve")
 
 
-with open('sleeve_tax_tab.txt', 'r') as t:
-    with open('dada2_sleeve_taxa_names.txt', 'w') as out:
+with open('IER_fwdOnly_final_tax.txt', 'r') as t:
+    with open('dada2_IER_taxa_names.txt', 'w') as out:
         for line in t.readlines():
             line = line.rstrip()
             if line.startswith('#'):
