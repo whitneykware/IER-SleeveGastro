@@ -1,0 +1,11 @@
+taxa	IERGroupPValue	IERTimePValue	IERTumorPValue	IERpValuesLog10VolumeWithDirection	IERcorCoeffVolumeBUG	SleeveGroupPValue	SleeveTimePValue	SleeveTumorPValue	SleevePValuesLog10VolumeWithDirection	SleeveCorCoeffVolumeBUG
+"Bacteria, Firmicutes, Clostridia, Clostridiales, Ruminococcaceae, Harryflintia"	0.496736012	0.714296053	0.764236279	-0.11677235	0.017742382	0.042535747	0.000193275	0.07865387	0.363217468	1.104279902
+"Bacteria, Firmicutes, Erysipelotrichia, Erysipelotrichales, Erysipelotrichaceae, Turicibacter"	7.18E-08	0.516569517	0.141384482	-0.849598254	0.134504664	4.54E-06	0.407582809	0.000347963	0.027063572	3.458467203
+"Bacteria, Firmicutes, Clostridia, Clostridiales, Clostridiaceae_1, Clostridium_sensu_stricto_1"	1.90E-07	0.570328989	0.137336462	-0.862214145	0.12832513	2.97E-09	0.594639915	3.56E-07	NA	6.448668334
+"Bacteria, Bacteroidetes, Bacteroidia, Bacteroidales, Marinifilaceae, Odoribacter"	3.39E-07	0.033170769	0.160238744	0.795232467	-0.107019836	0.062357483	0.000255011	0.493322835	0.662230349	0.306868781
+"Bacteria, Firmicutes, Clostridia, Clostridiales, Ruminococcaceae, Ruminiclostridium_5"	0.740157323	0.280062192	0.216737627	-0.664065686	0.156598552	0.943276122	0.004913903	0.394942758	0.697646936	-0.403465845
+"Bacteria, Bacteroidetes, Bacteroidia, Bacteroidales, Rikenellaceae, Alistipes"	0.653241718	0.712930307	0.004628022	2.334604583	-0.271281981	0.163648767	9.94E-05	0.804448267	0.563478733	-0.094501879
+"Bacteria, Verrucomicrobia, Verrucomicrobiae, Verrucomicrobiales, Akkermansiaceae, Akkermansia"	0.000240806	0.554853654	0.420626145	0.376103737	-0.069735306	0.40871872	0.418569657	0.285152926	0.484877805	0.544922168
+"Bacteria, Actinobacteria, Coriobacteriia, Coriobacteriales, Eggerthellaceae, Enterorhabdus"	0.125530194	0.263576924	0.556580737	0.254471829	-0.053793954	0.220846242	0	0.482202667	NA	-0.316770392
+"Bacteria, Firmicutes, Erysipelotrichia, Erysipelotrichales, Erysipelotrichaceae, Erysipelatoclostridium"	0.000850273	0.63331557	0.416291262	0.380602705	-0.072480131	0.757319631	0.75013051	0.859198678	0.442427272	-0.0659064
+"Bacteria, Firmicutes, Clostridia, Clostridiales, Ruminococcaceae, NA"	0.995352438	0.557475397	0.642204853	-0.192326417	0.046604512	0.863910854	0.109644556	0.598543445	0.989680267	0.222904321

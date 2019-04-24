@@ -1,3 +1,6 @@
+#original otu data sent to us (not from blj)
+#excludes samples with NA tumor volume, includes vol in model 
+
 rm(list=ls())
 
 setwd('/Users/whitneyware/IER_Sleeve')
